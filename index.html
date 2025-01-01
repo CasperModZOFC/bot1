@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram Web App</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Loading Screen Styles */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            color: white;
+            font-size: 2rem;
+            font-weight: 600;
+            transition: opacity 0.3s ease-out;
+        }
+
+        .loading-text {
+            text-align: center;
+        }
+
+        /* Background Video Styles */
+        .video-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            filter: brightness(50%);
+        }
+
+        /* Content Styles */
+        .content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+        }
+        .question {
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+        .question-container {
+            margin-bottom: 30px;
+        }
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .button-container button {
+            padding: 15px 35px;
+            font-size: 1.4rem;
+            font-weight: 500;
+            background-color: #4A8CC8;
+            color: white;
+            border: 2px solid #4A8CC8;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .button-container button:hover {
+            background-color: #6FB4F1;
+            border-color: #6FB4F1;
+            transform: translateY(-4px);
+        }
+        .button-container button:active {
+            transform: translateY(2px);
+            box-shadow: none;
+        }
+        .play-now {
+            display: none;
+            padding: 20px 40px;
+            font-size: 1.6rem;
+            font-weight: 600;
+            background-color: #4A8CC8;
+            color: white;
+            border: 2px solid #4A8CC8;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .play-now:hover {
+            background-color: #6FB4F1;
+            border-color: #6FB4F1;
+            transform: translateY(-4px);
+        }
+        .play-now:active {
+            transform: translateY(2px);
+            box-shadow: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="loading-screen">
+        <div class="loading-text">Loading...</div>
+    </div>
+
+    <!-- Background Video -->
+    <video id="backgroundVideo" class="video-background" autoplay muted loop>
+        <source src="1.webm" type="video/webm">
+        Your browser does not support the video tag.
+    </video>
+
+    <div class="content">
+        <!-- Question and Buttons -->
+        <div class="question-container">
+            <div id="question" class="question">What is your gender?</div>
+            <div class="button-container">
+                <button onclick="changeQuestion('Male')">Male</button>
+                <button onclick="changeQuestion('Female')">Female</button>
+            </div>
+        </div>
+        <!-- Play Now Button -->
+        <button id="playButton" class="play-now" onclick="window.location.href='https://t.me/Hiverabot/app?startapp=922c8afe0'">PLAY NOW</button>
+    </div>
+
+    <script>
+        // Wait for video to load before hiding the loading screen
+        document.getElementById('backgroundVideo').oncanplaythrough = function() {
+            document.getElementById('loadingScreen').style.opacity = 0;
+            setTimeout(function() {
+                document.getElementById('loadingScreen').style.display = 'none';
+            }, 300); // Fade out transition
+        };
+
+        function changeQuestion(answer) {
+            // Change the background video
+            document.getElementById('backgroundVideo').src = '2.webm';
+
+            // Remove the gender question and buttons
+            document.getElementById('question').innerText = 'What is your age?';
+            document.querySelector('.button-container').innerHTML = `
+                <button onclick="ageQuestion('Below 18')">Below 18</button>
+                <button onclick="ageQuestion('18+')">18 +</button>
+            `;
+        }
+
+        function ageQuestion(answer) {
+            // Remove age question and buttons
+            document.getElementById('question').innerText = '';
+            document.querySelector('.button-container').innerHTML = '';
+
+            // Show the "PLAY NOW" button
+            document.getElementById('playButton').style.display = 'block';
+        }
+    </script>
+
+</body>
+</html>
